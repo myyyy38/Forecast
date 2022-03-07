@@ -91,18 +91,19 @@ if not areas:
 
 else:
     graph_data = df_temp.loc[areas]
-    st.write('### 年間平均気温', graph_data.sort_index())
+    st.write('### 年間平均気温', graph_data)
     graph_data = graph_data.T.reset_index()
     graph_data = pd.melt(graph_data, id_vars=['index']).rename(
         columns={'value':'temperature','variable':'Area'}
     )
     graph_data = graph_data.rename(columns={'index':'Month'})
+    st.write(graph_data)
     chart = (
         alt.Chart(graph_data).mark_line(opacity=0.8,clip=True)
         .encode(
-            #:T 日付型への変換　:O　時系列型への変換
-            x='Month:O',
-            y=alt.Y('temperature',stack=None,scale=alt.Scale(domain=[-20,40])),
+            #:T 日付型への変換　:O　時系列型への変換 Q:
+            x='Month:Q',
+            y=alt.Y('temperature',stack=None,scale=alt.Scale(domain=[-20,35])),
             color='Area:N'
         )
     )
