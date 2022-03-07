@@ -97,7 +97,6 @@ else:
         columns={'value':'temperature','variable':'Area'}
     )
     graph_data = graph_data.rename(columns={'index':'Month'})
-    st.write(graph_data)
     chart = (
         alt.Chart(graph_data).mark_line(opacity=0.8,clip=True)
         .encode(
