@@ -33,10 +33,16 @@ area_name = [s['name'] for s in json_data]
 
 #地点の座標リスト
 place = []
-for s in area_name:
-    #ヒットしない地点があるので市役所で検索
-    place_check = ge.arcgis(s+'市役所')
-    place.append(place_check.latlng)
+
+#リロード時に毎回読み込まないように(ここが時間かかる)
+@st.cache
+def get_coordinate():
+    for s in area_name:
+        #ヒットしない地点があるので市役所で検索
+        place_check = ge.arcgis(s+'市役所')
+        place.append(place_check.latlng)
+    return place
+place = get_coordinate()
 
 #各地点の名前、座標のdataframe
 df = pd.DataFrame(
@@ -48,7 +54,6 @@ df = pd.DataFrame(
 df['code'] = office_code
 
 #データを地図に渡す関数
-#@st.cache
 def AreaMaker(df,map_data):
     for index,r in df.iterrows():
         html=f'<a href=https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code={r.code} target="_blank"> {index}周辺の天気予報 </a>'
