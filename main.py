@@ -1,4 +1,3 @@
-from array import array
 import os
 import sys
 import time
@@ -9,7 +8,6 @@ from streamlit_folium import folium_static
 import pandas as pd
 import urllib.request as req
 import json
-import requests
 import geocoder as ge
 import branca
 import altair as alt
